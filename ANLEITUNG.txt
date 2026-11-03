@@ -1,0 +1,14 @@
+ZYKLUS-TAGEBUCH ALS APP AUF DEM HANDY
+=====================================
+1) Den entpackten Ordner bei https://app.netlify.com/drop hineinziehen.
+   Netlify erzeugt einen https-Link. (Alternativ: GitHub Pages oder anderer Webspace mit https.)
+2) Link auf dem Handy öffnen.
+   iPhone (Safari): Teilen-Symbol -> "Zum Home-Bildschirm" -> Hinzufügen.
+   Android (Chrome): Menü (drei Punkte) -> "App installieren" bzw. "Zum Startbildschirm".
+3) Die App startet danach im Vollbild wie eine normale App.
+
+WICHTIG
+- Deine Einträge liegen nur lokal auf diesem Gerät in genau dieser App/diesem Browser.
+- Vor Gerätewechsel oder Löschen der Browserdaten: unten auf der Übersicht
+  "Daten importieren oder sichern" -> Exportieren und die Datei aufbewahren.
+- Wer den Link kennt, kann die App öffnen, sieht aber nie deine Daten (die bleiben auf deinem Gerät).
