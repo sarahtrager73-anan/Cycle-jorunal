@@ -132,10 +132,13 @@ h3{font:400 34px/1.15 var(--serif);margin:8px 0 12px}
 <div id="intro"><span>TIPPEN ZUM ÜBERSPRINGEN</span></div>
 <div id="login" class="hid"><div class="lc">
 <small><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#a84a66" stroke-width="2.2" stroke-linecap="round"><path d="M21 13.5A9 9 0 1 1 10.5 3a7 7 0 0 0 10.5 10.5z"/></svg>ZYKLUS-TAGEBUCH</small>
-<h1>Willkommen zurück</h1><p>Gib deinen Vornamen ein – die App öffnet sich sofort.</p>
-<label for="nm">VORNAME</label><input id="nm" autocomplete="given-name" maxlength="30">
+<h1>Willkommen zurück</h1><p>Gib einmalig deine E-Mail-Adresse ein – danach öffnet sich die App immer sofort.</p>
+<label for="nm">E-MAIL-ADRESSE</label><input id="nm" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" maxlength="100">
+<label for="nm2" style="margin-top:12px">E-MAIL-ADRESSE BESTÄTIGEN</label><input id="nm2" type="email" inputmode="email" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="100">
+<label style="display:flex;gap:10px;align-items:flex-start;margin:14px 0 4px;font-size:13px;line-height:1.4;letter-spacing:0;text-transform:none;cursor:pointer"><input type="checkbox" id="ok" style="width:auto;margin-top:2px;flex:none"><span>Ich bin einverstanden, dass meine E-Mail-Adresse zur Anmeldung gespeichert wird.</span></label>
+<p id="err" style="color:#d9788f;font-size:13px;min-height:18px;margin:6px 0 0"></p>
 <button class="go" id="go">App öffnen →</button>
-<p class="note"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#7d6f76" stroke-width="1.8"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Deine Einträge sind nur unter deinem Vornamen sichtbar und bleiben auf diesem Gerät.</p>
+<p class="note"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#7d6f76" stroke-width="1.8"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Deine E-Mail-Adresse dient nur der Anmeldung. Deine Zyklus-Einträge bleiben auf diesem Gerät.</p>
 </div></div>
 <div id="app" class="hid"></div>
 <script>
@@ -177,7 +180,7 @@ h+=`<button class="${c.join(' ')}" data-a="day" data-v="${ds}" style="--pc:${I?P
 function render(){const y=scrollY,t=iso(new Date()),I=info(t),d=I?I.day:1,l=I?I.len:28,p=I?I.ph:0,h=hor(d,l),C=2*Math.PI*88,P=PH[p];
 const w=[5,l-21,3,13+(l-28)],cl=['--rose','--sage','--gold','--vio'],rg=['1–5',`6–${l-16}`,`${l-15}–${l-13}`,`${l-12}–${l}`],nm=['Periode','Follikelphase','Eisprung','Lutealphase'];
 const sd=parse(sel).toLocaleDateString('de-DE',{weekday:'long',day:'numeric',month:'long'}),isS=data.starts.includes(sel),lg=data.logs[sel]||[];
-$('#app').innerHTML=`<header class="top"><div class="logo">${moon()}</div><div><h2>Zyklus-Tagebuch</h2><p>Hallo ${esc(data.name)}</p></div>
+$('#app').innerHTML=`<header class="top"><div class="logo">${moon()}</div><div><h2>Zyklus-Tagebuch</h2><p>Hallo ${esc(dn(data.name))}</p></div>
 <button class="pen" data-a="ord" aria-label="Seite anordnen"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1-4L17 4l3 3L8 19z"/></svg></button><button class="out" style="display:none" tabindex="-1" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M9 4H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h4M16 8l4 4-4 4M20 12H9"/></svg>Abmelden</button></header><p class="dq">${spruch()}</p><nav class="nv">${[['home','Übersicht'],['kal','Kalender'],['stat','Statistik']].map(([k,n])=>`<button class="${view===k?'on':''}" data-a="vw" data-v="${k}">${n}</button>`).join('')}</nav><div data-k="o" class="ob"><button data-a="dx">Daten importieren oder sichern</button><button data-a="out">Abmelden</button></div>
 <section class="card" data-k="z"><svg class="ring" viewBox="0 0 200 200"><circle cx="100" cy="100" r="88" fill="none" stroke="#352b32" stroke-width="20"/>${I?`<circle cx="100" cy="100" r="88" fill="none" stroke="${P.c}" stroke-width="20" stroke-linecap="round" stroke-dasharray="${C*d/l} ${C}" transform="rotate(-90 100 100)"/>`:''}
 <text x="100" y="62" font-size="11" letter-spacing="3" style="fill:var(--mut)">ZYKLUSTAG</text><text x="100" y="116" font-size="46" font-family="Newsreader,Georgia,serif">${I?d:'–'}</text><text x="100" y="146" font-size="14" style="fill:var(--mut)">von ~${l}</text></svg>
@@ -220,7 +223,7 @@ const PS=[['Ruhe ist jetzt deine Stärke.','Wärme und Erholung schenken dir neu
 ['Du strahlst von innen.','Zeig dich, wie du bist – du leuchtest.','Deine Kraft ist heute spürbar.','Du ziehst an, was dir guttut.','Sprich aus, was dir wichtig ist.','Fülle und Leichtigkeit begleiten dich.','Du darfst gesehen werden.','Verbindung beginnt mit Offenheit.','Heute trägt dich deine Zuversicht.','Du bist Fülle und Licht.'],
 ['Nach innen zu lauschen ist Weisheit.','Setze liebevolle Grenzen, ohne Schuldgefühl.','Ordne dich neu, in deinem Tempo.','Du darfst müde sein und trotzdem wertvoll.','Sanftheit ist auch Stärke.','Du musst heute nichts beweisen.','Bald kommt wieder Leichtigkeit, vertrau darauf.','Gib dir, was du anderen gibst.','Dein Gefühl ist wichtig, nimm es ernst.','Kleine Schritte zählen genauso.']];
 function intro(fresh){const t=iso(new Date()),pages=[];if(fresh)loc();
-if(fresh)pages.push(['Willkommen, '+data.name,'Schön, dass du da bist. Dieses Tagebuch begleitet dich durch deinen Zyklus.'],['So funktioniert es','Trage im Kalender den Start deiner Periode ein oder importiere frühere Daten, tippe auf Phasen und Hormone für Erklärungen, halte im Kalender Beschwerden fest und ordne die Seite mit „Anordnen“ nach deinem Geschmack.']);
+if(fresh)pages.push(['Willkommen, '+dn(data.name),'Schön, dass du da bist. Dieses Tagebuch begleitet dich durch deinen Zyklus.'],['So funktioniert es','Trage im Kalender den Start deiner Periode ein oder importiere frühere Daten, tippe auf Phasen und Hormone für Erklärungen, halte im Kalender Beschwerden fest und ordne die Seite mit „Anordnen“ nach deinem Geschmack.']);
 if(data.sp!==t){const I=info(t),n=new Date(),doy=Math.floor((n-new Date(n.getFullYear(),0,0))/DAY);pages.push(['Dein Gedanke für heute',OP[doy%10]+' '+PS[I?I.ph:0][Math.floor(doy/10)%10],1]);data.sp=t;loc()}
 if(!pages.length)return;let i=0;const o=document.createElement('div');o.id='ov';document.body.appendChild(o);
 const show=()=>{if(i>=pages.length){o.remove();return}const[a,b,sn]=pages[i];o.className=sn?'sun':'';o.style.backgroundImage='';o.onclick=null;if(sn){const my=i;o.innerHTML='<div class="sq"><p>'+esc(b)+'</p></div><span class="tp2">Tippe, um loszulegen</span>';o.onclick=()=>{i++;show()};setTimeout(()=>{if(o.isConnected&&i===my){i++;show()}},8200);return}o.innerHTML='<div style="position:relative"><h2>'+esc(a)+'</h2><p>'+esc(b)+'</p><button class="btn" id="ovb">'+(i<pages.length-1?'Weiter':'Los geht’s')+'</button></div>';$('#ovb').onclick=e=>{e.stopPropagation();i++;show()}};show()}
@@ -368,10 +371,13 @@ for(let j=0;j<16;j++){const a=t*1.1-j*.045,rd=(180+70*Math.sin(t*.35))*r;x.fillS
 else{x.lineCap='round';st.forEach(s=>{s.y+=s.v*.004;if(s.y>1.1){s.y=-.1;s.x=Math.random()}x.strokeStyle=`rgba(235,225,225,${s.l*5})`;x.lineWidth=1.3*r;x.beginPath();x.moveTo(s.x*W,s.y*H);x.lineTo(s.x*W-6*r,s.y*H-s.v*70*r);x.stroke()})}
 raf=requestAnimationFrame(f)})(t0)}
 let tm;function showLogin(){clearTimeout(tm);$('#intro').classList.add('hid');$('#login').classList.remove('hid');try{sky('streak')}catch(e){}setTimeout(()=>$('#nm').focus(),50)}
-function enter(){const n=$('#nm').value.trim();if(n)openApp(n);else $('#nm').focus()}
-$('#go').onclick=enter;$('#nm').onkeydown=e=>{if(e.key==='Enter')enter()};$('#intro').onclick=showLogin;
-const ses=store.get('zt:session');
-if(ses&&ses.d===iso(new Date()))openApp(ses.n,true);else{tm=setTimeout(()=>{window._wk=performance.now();tm=setTimeout(()=>{const f=document.createElement('div');f.id='fl';document.body.appendChild(f);setTimeout(()=>f.remove(),900);window._wk=0;showLogin()},1100)},3600);try{sky2()}catch(e){}}
+const REG_URL='https://script.google.com/macros/s/AKfycbwMplim4jnFrxmIrONbOyiuM5HLiohJJk8kAlo1I0QrbucaIKE0zoUSliKfaP8NVLQ/exec';
+const dn=n=>{const l=String(n).split('@')[0].replace(/[._-]+/g,' ').trim();return l?l.charAt(0).toUpperCase()+l.slice(1):n};
+function register(m){const td=iso(new Date());if(!REG_URL||store.get('zt:reg3:'+m)===td)return;try{fetch(REG_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify({email:m,ts:new Date().toISOString()})}).then(()=>store.set('zt:reg3:'+m,td)).catch(()=>{})}catch(e){}}
+function enter(){const n=$('#nm').value.trim().toLowerCase(),er=$('#err');er.textContent='';if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(n)){er.textContent='Bitte gib eine gültige E-Mail-Adresse ein.';$('#nm').focus();return}if($('#nm2').value.trim().toLowerCase()!==n){er.textContent='Die beiden E-Mail-Adressen stimmen nicht überein.';$('#nm2').focus();return}if(!$('#ok').checked){er.textContent='Bitte stimme der Speicherung deiner E-Mail-Adresse zu.';return}register(n);store.set('zt:email',n);openApp(n)}
+$('#go').onclick=enter;$('#nm').onkeydown=$('#nm2').onkeydown=e=>{if(e.key==='Enter')enter()};$('#intro').onclick=showLogin;
+const ses=store.get('zt:session');if(ses&&ses.n)register(ses.n);
+if(ses&&ses.n)openApp(ses.n,true);else{tm=setTimeout(()=>{window._wk=performance.now();tm=setTimeout(()=>{const f=document.createElement('div');f.id='fl';document.body.appendChild(f);setTimeout(()=>f.remove(),900);window._wk=0;showLogin()},1100)},3600);try{sky2()}catch(e){}}
 </script>
 <script>if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))</script></body>
 </html>
